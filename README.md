@@ -52,6 +52,12 @@ Constants at the top of [`hooks/register.ts`](hooks/register.ts):
 | `IDLE_MS` | 4.5 min | How long a session sits idle first (the cache lasts about 5) |
 | `HANDOVER` | see file | The handover instructions; change the sections to suit your work |
 
+## What it hooks and writes
+
+- `session.compact`: adds the handover instructions to the compaction request, then saves the summary it produced.
+- `turn.start` and `turn.complete`: stop and start the idle timer for big main sessions.
+- Writes only `.handoffs/<session>/<time>-<main|agent>.md` in your project: a copy of each handover for you to read. The mod never reads these back.
+
 ## More from Production Grade
 
 Walkthroughs of these mods and of how I run Claude Code on real work:

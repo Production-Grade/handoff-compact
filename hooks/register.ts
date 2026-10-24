@@ -55,13 +55,13 @@ export const register: Register = on => {
       const sid = await $.session.id()
       const stamp = new Date(await $.clock.now()).toISOString().replace(/[:.]/g, '-').slice(0, 19)
       const who = e.agentId ? `agent-${e.agentId}` : 'main'
-      const path = `${await $.session.root()}/.handoffs/${sid}/${stamp}-${who}.md`
+      const root = await $.session.root()
       const before = done.tokensBefore ? `${Math.round(done.tokensBefore / 1000)}K` : '?'
       const after = done.tokensAfter ? `${Math.round(done.tokensAfter / 1000)}K` : '?'
-      await $.fs.write(path, `<!-- ${e.trigger} compaction, ${who}, ${before} -> ${after} -->\n\n${summary}\n`)
+      await $.fs.write(`${root}/.handoffs/${sid}/${stamp}-${who}.md`, `<!-- ${e.trigger} compaction, ${who}, ${before} -> ${after} -->\n\n${summary}\n`)
       count++
       if (!e.agentId) $.ui.toast(`Compacted ${before} → ${after}; handover saved to .handoffs/`)
-      $.ui.log(`${who} compacted ${before} → ${after} (${e.trigger}); handover: ${path}`)
+      $.ui.log(`${who} compacted ${before} → ${after} (${e.trigger}); handover: .handoffs/${sid}/${stamp}-${who}.md`)
     } catch (err) {
       $.ui.log(`handover not saved: ${String(err)}`)
     }
