@@ -1,0 +1,13 @@
+{
+  "name": "handoff-compact",
+  "owner": {
+    "name": "Production Grade"
+  },
+  "plugins": [
+    {
+      "name": "handoff-compact",
+      "source": "./",
+      "description": "Every compaction (main session or sub-agent) writes a structured handover, saves it to disk, and work carries on; idle big sessions compact before the cache expires."
+    }
+  ]
+}
